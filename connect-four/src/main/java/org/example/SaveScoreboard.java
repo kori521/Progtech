@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.nio.charset.StandardCharsets;
 
 import org.example.LoadScoreboard;
 
@@ -19,7 +20,8 @@ public class SaveScoreboard {
         //saveScoreboard.scoreboard.add(new GetPlayers("Alice", 100));
         boolean updated = false;
         for (GetPlayers player : saveScoreboard.scoreboard) {
-            if(name == player.getName().toString());
+            String decodedName = player.getName().toString();
+            if(name.equals(decodedName))
             {
                 player.setHighScore(player.getHighScore()+1);
                 updated = true;

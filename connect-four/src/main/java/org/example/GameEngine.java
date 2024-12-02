@@ -41,9 +41,7 @@ public class GameEngine extends LoadScoreboard{
     }
 
     public void UIController(LoadScoreboard ls){
-
         Scanner scanner = new Scanner(System.in);
-
         System.out.println("\t   SCOREBOARD \n");
         ls.LoadScore();
         ls.WriteScoreboard();
@@ -53,6 +51,7 @@ public class GameEngine extends LoadScoreboard{
 
         System.out.println("Do you want to load the saved state? (y/n)");
         loadGameChoice = scanner.nextLine();
+
     }
 
     public void GameManager()
@@ -62,7 +61,12 @@ public class GameEngine extends LoadScoreboard{
 
         //handles game and win check
         do {
-            PlayerMove();
+            if(PlayerMove()) //miss input
+            {
+                do {
+                    PlayerMove();
+                }while(!PlayerMove());
+            };
             updateMap();
             checker = Checker();
             if(checker)
@@ -185,9 +189,9 @@ public class GameEngine extends LoadScoreboard{
     {
         int moveCol = -1;
 
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner2 = new Scanner(System.in);
         System.out.println("Make a move, or save the game (S): ");
-        String move = scanner.nextLine();
+        String move = scanner2.nextLine();
 
         //update Map by move
         //convert string to indexes
@@ -219,8 +223,13 @@ public class GameEngine extends LoadScoreboard{
                 PlayerMove();
                 break;
 
+            default:
+                System.out.println("Invalid input. Please try again.");
+                break;
         }
 
+        if (moveCol == -1)
+            return Boolean.TRUE;
         //make move
         for (int i = 5; i > 0; i--) {
             if(gameMap[i][moveCol] == 0){
